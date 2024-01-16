@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Grid } from "@mui/material";
 import TopMenu from "./TopMenu";
 import SideMenu from "./mainmenu";

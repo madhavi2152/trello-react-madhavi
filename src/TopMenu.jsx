@@ -2,7 +2,6 @@ import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Container from "@mui/material/Container";
-import { Button } from "@mui/material";
 import axios from "axios";
 function Boards() {
   let boardname = React.useRef("");
