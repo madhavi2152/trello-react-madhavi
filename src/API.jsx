@@ -82,6 +82,7 @@ function AddList(boardId, listname, list) {
       list
     )
     .then(function (response) {
+      return response.data;
       console.log(response);
     })
     .catch(function (error) {
@@ -90,11 +91,12 @@ function AddList(boardId, listname, list) {
 }
 
 function ArchiveList(listid) {
-  axios
+  return axios
     .put(
       `https://api.trello.com/1/lists/${listid}/closed?value=true&key=${key}&token=${token}`
     )
     .then((response) => {
+      return response.data;
       console.log(response);
     })
     .catch((err) => {
@@ -112,6 +114,43 @@ function cardDelete(id) {
       console.log(err);
     });
 }
+function FetchChecklist(id) {
+  return axios
+    .get(
+      `https://api.trello.com/1/cards/${id}/checklists?key=${key}&token=${token}`
+    )
+    .then((res) => {
+      console.log(res.data);
+      return res.data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+function AddChecklist(id, name) {
+  return axios
+    .post(
+      `https://api.trello.com/1/cards/${id}/checklists?name=${name}&key=${key}&token=${token}`
+    )
+    .then((response) => {
+      return response.data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+function AddCheckitem(id, name) {
+  return axios
+    .post(
+      `https://api.trello.com/1/checklists/${id}/checkItems?name=${name}&key=${key}&token=${token}`
+    )
+    .then((response) => {
+      return response.data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
 export {
   Fetches,
   key,
@@ -122,4 +161,7 @@ export {
   AddList,
   ArchiveList,
   cardDelete,
+  FetchChecklist,
+  AddChecklist,
+  AddCheckitem,
 };

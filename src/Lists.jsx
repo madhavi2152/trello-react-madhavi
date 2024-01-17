@@ -1,30 +1,10 @@
 import ListDisplay from "./ListDisplay";
 import { Link, useParams } from "react-router-dom";
-import {
-  Listfetches,
-  CardFetches,
-  AddCard,
-  AddList,
-  ArchiveList,
-  cardDelete,
-} from "./API";
+import { Listfetches, CardFetches, AddList } from "./API";
 import { useEffect, useRef, useState } from "react";
 import { ListItem, Paper } from "@mui/material";
-import CheckLists from "./CheckLists";
 function Lists() {
-  const [anchorEl, setAnchorEl] = useState(null);
   let [showCheckList, setShowCheckList] = useState(false);
-
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const open = Boolean(anchorEl);
-  const idt = open ? "simple-popover" : undefined;
 
   let [data, setData] = useState("");
   // let [value, setValue] = useState("");
@@ -59,7 +39,16 @@ function Lists() {
 
   function handleSubmitlist(e) {
     e.preventDefault();
-    AddList(idBoard.current, listvalue.current, { name: listvalue.current });
+    let fun = async () => {
+      let temp = await AddList(idBoard.current, listvalue.current, {
+        name: listvalue.current,
+      });
+      setData((prev) => [...prev, temp]);
+      setCard((prev) => ({ ...prev, [temp.id]: [] }));
+      console.log(Card);
+      console.log(data);
+    };
+    fun();
   }
   function handlesetcardfun(temp) {
     card.current[temp.idList] = [...card.current[temp.idList], temp];
@@ -69,6 +58,29 @@ function Lists() {
     }));
     console.log(Card);
     return "s";
+  }
+  function handleCardDelete(id, listid) {
+    console.log(id);
+    console.log(listid);
+    console.log(data);
+    setCard((prevCard) => {
+      const updatedList = prevCard[listid].filter((card) => card.id !== id);
+      const updatedCard = {
+        ...prevCard,
+        [listid]: updatedList,
+      };
+      console.log(updatedCard);
+      return updatedCard;
+    });
+  }
+  console.log(data);
+
+  function handleListArchive(id) {
+    setData((prev) => {
+      return prev.filter((row) => {
+        if (row.id !== id) return true;
+      });
+    });
   }
 
   return (
@@ -80,10 +92,11 @@ function Lists() {
               <ListDisplay
                 row={row}
                 card={card}
-                idBoard={idBoard}
                 Card={Card}
                 setCard={setCard}
                 setcardfun={handlesetcardfun}
+                carddelete={(id, listid) => handleCardDelete(id, listid)}
+                listdelete={(id) => handleListArchive(id)}
               />
             );
           })}

@@ -1,17 +1,13 @@
 import { ListItem } from "@mui/material";
-import PopOver from "./PopOver";
 import { cardDelete } from "./API";
 import { useState } from "react";
 
 function CardsDisplay(props) {
-  let { row } = props;
+  let { row, handleDelete, handlecheck } = props;
   let [render, setRender] = useState(true);
-
-  const handleClic = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
   function handleCardDelete(id) {
     cardDelete(id);
+    handleDelete();
     setRender((prev) => !prev);
   }
   return (
@@ -19,6 +15,7 @@ function CardsDisplay(props) {
       <ListItem
         key={row.id}
         style={{
+          position: "relative",
           backgroundColor: "white",
           margin: "10px",
           textDecoration: "none",
@@ -26,7 +23,7 @@ function CardsDisplay(props) {
           borderRadius: "5px",
         }}
         onClick={(e) => {
-          handleClic(e);
+          handlecheck();
         }}
       >
         {/* {console.log(row)} */}
@@ -39,8 +36,6 @@ function CardsDisplay(props) {
           delete
         </button>
       </ListItem>
-
-      {/* <PopOver id={row.id} /> */}
     </>
   );
 }

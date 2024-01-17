@@ -1,11 +1,14 @@
 import { useRef, useState } from "react";
 import CardsDisplay from "./CardsDisplay";
-import { AddCard } from "./API";
+import { AddCard, ArchiveList } from "./API";
+import Checklist from "./Checklist";
 
 function ListDisplay(props) {
   let [render, setRender] = useState(true);
   let [value, setValue] = useState("");
-  let { row, card, idBoard, Card, setCard, setcardfun } = props;
+  let [showcl, setShowcl] = useState(false);
+  let [clid, setClid] = useState("");
+  let { row, Card, setcardfun, carddelete, listdelete } = props;
   function handleSubmit(e, listId) {
     e.preventDefault();
     console.log(value);
@@ -19,9 +22,23 @@ function ListDisplay(props) {
     setValue("");
   }
 
+  function handleDelete(id, listid) {
+    console.log(id, listid);
+    carddelete(id, listid);
+  }
+
   function handleListArchive(e, listId) {
     e.preventDefault();
-    ArchiveList(listId);
+    const fun = async () => {
+      let archive = await ArchiveList(listId);
+      listdelete(listId);
+    };
+    fun();
+  }
+  function HandleChecklist(id) {
+    setShowcl((prev) => !prev);
+    setClid(id);
+    console.log(id);
   }
 
   return (
@@ -36,10 +53,21 @@ function ListDisplay(props) {
         {row.name}
         {Card[row.id]?.map((row) => {
           {
+            console.log(row);
             console.log(row.name);
           }
-          return <CardsDisplay row={row} />;
+          return (
+            <>
+              <CardsDisplay
+                row={row}
+                handleDelete={() => handleDelete(row.id, row.idList)}
+                handlecheck={() => HandleChecklist(row.id)}
+              />
+            </>
+          );
         })}
+        {console.log(showcl)}
+        {showcl && <Checklist id={clid} />}
         <form
           onSubmit={(e) => {
             handleSubmit(e, row.id);
@@ -55,13 +83,13 @@ function ListDisplay(props) {
           ></input>
           <button type="submit">+</button>
         </form>
-        {/* <form
+        <form
           onSubmit={(e) => {
-            idBoard.current ? handleListArchive(e, row.id) : "";
+            handleListArchive(e, row.id);
           }}
         >
           <button type="submit">Archive list</button>
-        </form> */}
+        </form>
       </ul>
     </div>
   );
