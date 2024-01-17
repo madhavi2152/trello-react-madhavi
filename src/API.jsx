@@ -68,6 +68,7 @@ function AddCard(listId, card) {
       card
     )
     .then(function (response) {
+      return response.data;
       console.log(response);
     })
     .catch(function (error) {

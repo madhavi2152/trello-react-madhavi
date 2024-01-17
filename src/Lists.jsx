@@ -1,4 +1,5 @@
-import { useParams } from "react-router-dom";
+import ListDisplay from "./ListDisplay";
+import { Link, useParams } from "react-router-dom";
 import {
   Listfetches,
   CardFetches,
@@ -8,16 +9,33 @@ import {
   cardDelete,
 } from "./API";
 import { useEffect, useRef, useState } from "react";
+import { ListItem, Paper } from "@mui/material";
+import CheckLists from "./CheckLists";
 function Lists() {
+  const [anchorEl, setAnchorEl] = useState(null);
+  let [showCheckList, setShowCheckList] = useState(false);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const idt = open ? "simple-popover" : undefined;
+
   let [data, setData] = useState("");
   // let [value, setValue] = useState("");
-  let value = useRef("");
   let idBoard = useRef("");
   let listvalue = useRef("");
   let card = useRef({});
+  let [Card, setCard] = useState([]);
   let { id } = useParams();
   id = id.split(":")[1];
   console.log(id);
+
   useEffect(() => {
     const fun = async () => {
       try {
@@ -31,93 +49,42 @@ function Lists() {
           })
         );
         setData(listdata);
+        setCard(card.current);
       } catch (err) {
         console.log(err);
       }
     };
     fun();
-  }, [id]);
-  function handleSubmit(e, listId) {
-    e.preventDefault();
-    console.log(value.current);
-    const fun = async (listId, value) => {
-      AddCard(listId, { idList: listId, name: value });
-      value.current = "";
-    };
-    fun(listId, value.current);
-  }
+  }, []);
+
   function handleSubmitlist(e) {
     e.preventDefault();
     AddList(idBoard.current, listvalue.current, { name: listvalue.current });
   }
-  function handleListArchive(e, listId) {
-    e.preventDefault();
-    ArchiveList(listId);
-  }
-  function handleCardDelete(id) {
-    cardDelete(id);
+  function handlesetcardfun(temp) {
+    card.current[temp.idList] = [...card.current[temp.idList], temp];
+    setCard((prev) => ({
+      ...Card,
+      [temp.idList]: [...Card[temp.idList], temp],
+    }));
+    console.log(Card);
+    return "s";
   }
 
   return (
-    Object.keys(card.current).length > 0 && (
+    Object.keys(Card).length > 0 && (
       <>
         <div style={{ display: "flex" }}>
           {data.map((row) => {
             return (
-              <div>
-                <ul
-                  style={{
-                    backgroundColor: "#ccc",
-                    margin: "20px",
-                    padding: "5px",
-                  }}
-                >
-                  {row.name}
-                  {card.current[row.id]?.map((row) => {
-                    return (
-                      <li
-                        style={{
-                          backgroundColor: "white",
-                          margin: "10px",
-                          textDecoration: "none",
-                          listStyle: "none",
-                          borderRadius: "5px",
-                        }}
-                      >
-                        {row.name}
-                        <button
-                          onClick={() => {
-                            handleCardDelete(row.id);
-                          }}
-                        >
-                          delete
-                        </button>
-                      </li>
-                    );
-                  })}
-                  <form
-                    onSubmit={(e) => {
-                      idBoard.current ? handleSubmit(e, row.id) : "";
-                    }}
-                  >
-                    <input
-                      type="text"
-                      placeholder="add card"
-                      onChange={(e) => {
-                        value.current = e.target.value;
-                      }}
-                    ></input>
-                    <button type="submit">+</button>
-                  </form>
-                  <form
-                    onSubmit={(e) => {
-                      idBoard.current ? handleListArchive(e, row.id) : "";
-                    }}
-                  >
-                    <button type="submit">Archive list</button>
-                  </form>
-                </ul>
-              </div>
+              <ListDisplay
+                row={row}
+                card={card}
+                idBoard={idBoard}
+                Card={Card}
+                setCard={setCard}
+                setcardfun={handlesetcardfun}
+              />
             );
           })}
           <form
