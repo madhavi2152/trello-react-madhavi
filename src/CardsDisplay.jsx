@@ -3,7 +3,8 @@ import { cardDelete } from "./API";
 import { useState } from "react";
 
 import { IconButton } from "@mui/material";
-import DeleteIcon from "@material-ui/icons/Delete";
+import DeleteIcon from "@mui/icons-material/Delete";
+
 function CardsDisplay(props) {
   let { row, handleDelete, handlecheck } = props;
   let [render, setRender] = useState(true);
