@@ -3,7 +3,8 @@ import CheckBox from "./checkbox";
 import { useEffect, useState } from "react";
 import Inputci from "./inputci";
 import { IconButton } from "@mui/material";
-import DeleteIcon from "@material-ui/icons/Delete";
+import DeleteIcon from "@mui/icons-material/Delete";
+
 import { DeleteChecklist } from "./API";
 
 function CheckItems(props) {

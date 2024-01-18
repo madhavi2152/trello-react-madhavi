@@ -4,7 +4,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import { Togglecheck, DeleteCheckItem } from "./API";
 import { IconButton } from "@mui/material";
-import DeleteIcon from "@material-ui/icons/Delete";
+import DeleteIcon from "@mui/icons-material/Delete";
 function CheckBox(props) {
   const { name, checkid, idcard, checked, togglecheck, deleteitem } = props;
   const [isChecked, setIsChecked] = useState(false);
@@ -29,12 +29,12 @@ function CheckBox(props) {
         control={
           <>
             <Checkbox checked={checked()} onChange={handleCheckboxChange} />
+            {name}
             <IconButton onClick={handleDelete}>
               <DeleteIcon />
             </IconButton>
           </>
         }
-        label={name}
       />
     </FormGroup>
   );
