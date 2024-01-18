@@ -2,7 +2,6 @@ import axios from "axios";
 const key = "b1e11150704299adce969ca411c9a318";
 const token =
   "ATTA840f4d019464c03623eca59a0a7bdda26e3ea34cc0a54c7abd00880be8a4614dFFEE1CA4";
-let id = "65a2117622f53dba2886201f";
 function fetchfun(id, key, token) {
   let fetch_url = `https://api.trello.com/1/members/${id}/boards?key=${key}&token=${token}`;
   return axios
@@ -11,28 +10,31 @@ function fetchfun(id, key, token) {
     .then((data) => data.data)
     .then((data) => data)
     .catch((error) => {
-      console.log(error);
       return error;
     });
 }
 function Fetches() {
-  const key = "b1e11150704299adce969ca411c9a318";
-  const token =
-    "ATTA840f4d019464c03623eca59a0a7bdda26e3ea34cc0a54c7abd00880be8a4614dFFEE1CA4";
   let id = "65a2117622f53dba2886201f";
   return fetchfun(id, key, token)
     .then((data) => {
-      return data.map((row) => {
-        return {
-          id: row.id,
-          name: row.name,
-          backgroundImage: row.prefs.backgroundImage,
-          background: row.prefs.background,
-        };
-      });
+      console.log(data);
+      return data;
     })
     .catch((error) => {
       console.log(error);
+    });
+}
+function CreateBoard(name) {
+  return axios
+    .post(
+      `https://api.trello.com/1/boards/?name=${name}&key=${key}&token=${token}`
+    )
+    .then((response) => {
+      return response.data;
+      console.log(response.data);
+    })
+    .catch((err) => {
+      console.log(err);
     });
 }
 function Listfetches(id) {
@@ -40,10 +42,7 @@ function Listfetches(id) {
     .get(
       `https://api.trello.com/1/boards/${id}/lists?key=${key}&token=${token}`
     )
-    .then((data) => {
-      console.log(data);
-      return data.data;
-    })
+    .then((data) => data.data)
     .catch((err) => {
       console.log(err);
       return err;
@@ -53,7 +52,6 @@ function CardFetches(id) {
   return axios
     .get(`https://api.trello.com/1/lists/${id}/cards?key=${key}&token=${token}`)
     .then((data) => {
-      console.log(data);
       return data.data;
     })
     .catch((err) => {
@@ -69,7 +67,6 @@ function AddCard(listId, card) {
     )
     .then(function (response) {
       return response.data;
-      console.log(response);
     })
     .catch(function (error) {
       console.log(error);
@@ -83,7 +80,6 @@ function AddList(boardId, listname, list) {
     )
     .then(function (response) {
       return response.data;
-      console.log(response);
     })
     .catch(function (error) {
       console.log(error);
@@ -151,6 +147,34 @@ function AddCheckitem(id, name) {
       console.log(err);
     });
 }
+function Togglecheck(cardId, id, state) {
+  return axios
+    .put(
+      `https://api.trello.com/1/cards/${cardId}/checkItem/${id}?key=b1e11150704299adce969ca411c9a318&state=${state}&token=ATTA840f4d019464c03623eca59a0a7bdda26e3ea34cc0a54c7abd00880be8a4614dFFEE1CA4`
+    )
+    .then((response) => {
+      console.log(response);
+      return response.data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+function DeleteCheckItem(cardid, checkid) {
+  axios
+    .delete(
+      `https://api.trello.com/1/cards/${cardid}/checkItem/${checkid}?key=${key}&token=${token}`
+    )
+    .then()
+    .catch((err) => {
+      console.log(err);
+    });
+}
+function DeleteChecklist(cardid, listid) {
+  axios.delete(
+    `https://api.trello.com/1/cards/${cardid}/checklists/${listid}?key=${key}&token=${token}`
+  );
+}
 export {
   Fetches,
   key,
@@ -164,4 +188,8 @@ export {
   FetchChecklist,
   AddChecklist,
   AddCheckitem,
+  Togglecheck,
+  DeleteCheckItem,
+  DeleteChecklist,
+  CreateBoard,
 };

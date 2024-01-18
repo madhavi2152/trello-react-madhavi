@@ -2,9 +2,11 @@ import { Button, Paper, Popover } from "@mui/material";
 import { FetchChecklist } from "./API";
 import { useEffect, useState } from "react";
 import Inputcl from "./Inputcl";
+import CloseIcon from "@mui/icons-material/Close";
 import CheckItems from "./CheckItems";
 function Checklist(props) {
   let { id } = props;
+  let [show, setShow] = useState(true);
   let [cldata, setCldata] = useState([]);
   let [showInput, setShowInput] = useState(false);
   useEffect(() => {
@@ -31,12 +33,13 @@ function Checklist(props) {
       )
     );
   }
+
   return (
     cldata && (
       <>
         <div
           style={{
-            display: "flex",
+            display: show ? "flex" : "none",
             backgroundColor: "white",
             width: "700px",
             minHeight: "600px",
@@ -46,35 +49,55 @@ function Checklist(props) {
             position: "absolute",
             boxShadow: "20px 20px 50px black",
             top: "25%",
-            left: "35%",
+            // left: "35%",
             zIndex: "1",
-            // bottom: "50px",
           }}
         >
           <div>
-            {cldata.map((row) => (
-              <CheckItems
-                row={row}
-                addci={(id, val) => {
-                  handleCheckItems(id, val);
+            {cldata.length > 0 ? (
+              cldata.map((row, index) => (
+                <CheckItems
+                  row={row}
+                  idcard={row.idCard}
+                  addci={(id, val) => {
+                    handleCheckItems(id, val);
+                  }}
+                  const
+                  DeleteList={(id) => {
+                    setCldata((prev) =>
+                      [...prev].filter((item) => item.id !== id)
+                    );
+                  }}
+                />
+              ))
+            ) : (
+              <div
+                style={{
+                  padding: "10px",
+                  borderRadius: "10px",
+                  margin: "10px",
+                  width: "100px",
+                  minHeight: "100px",
                 }}
-              />
-            ))}
+              ></div>
+            )}
           </div>
 
           <div
             style={{
-              //   position: "sticky",
               backgroundColor: "#ccc",
               borderLeft: "5px solid black",
               width: "30%",
-              //   height: "600px",
-              //   height: "fit-content",
               float: "right",
               marginLeft: "55%",
-              //   right: "0%",
             }}
           >
+            <CloseIcon
+              onClick={() => {
+                setShow(false);
+              }}
+              style={{ float: "right" }}
+            />
             <Button
               sx={{
                 textDecoration: "none",

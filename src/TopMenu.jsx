@@ -1,54 +1,39 @@
-import * as React from "react";
+import React from "react";
 import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
-import Container from "@mui/material/Container";
-import axios from "axios";
-function Boards() {
-  let boardname = React.useRef("");
-  let [selectval, setSelectval] = React.useState("");
-  function handleOnClick() {}
+import Typography from "@mui/material/Typography";
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    boardname.current = selectval;
-    console.log(boardname);
-    if (boardname.current !== "") {
-      try {
-        const response = await axios.post(
-          `https://api.trello.com/1/boards?name=${boardname.current}&key=b1e11150704299adce969ca411c9a318&token=ATTA840f4d019464c03623eca59a0a7bdda26e3ea34cc0a54c7abd00880be8a4614dFFEE1CA4`
-        );
-        setSelectval("");
-        boardname.current = "";
-        console.log(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  };
+import IconButton from "@mui/material/IconButton";
+import MenuIcon from "@mui/icons-material/Menu";
+import { Avatar } from "@mui/material";
 
+const TopMenu = ({ adding }) => {
+  const logoUrl = "https://trello.com/assets/87e1af770a49ce8e84e3.gif";
+  //   async function fetch
   return (
-    <>
-      <AppBar position="static" sx={{ zIndex: "1", position: "relative" }}>
-        <Container maxWidth="xl">
-          <Toolbar disableGutters>
-            <form
-              style={{ height: "100px", width: "400px" }}
-              onSubmit={handleSubmit}
-            >
-              <input
-                type="text"
-                // ref={boardname}
-                value={selectval}
-                placeholder="enter board name"
-                onClick={handleOnClick}
-                onChange={(e) => setSelectval(e.target.value)}
-              ></input>
-              <button type="submit">Submit</button>
-            </form>
-          </Toolbar>
-        </Container>
+    <Box
+      sx={{
+        flexGrow: 1,
+        position: "fixed",
+        width: "100%",
+        zIndex: "2",
+        marginBottom: "30px",
+      }}
+    >
+      <AppBar position="static" sx={{ backgroundColor: "#cccccc" }}>
+        <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
+          <img
+            src={logoUrl}
+            alt="Logo"
+            style={{ width: "100px", height: "auto" }}
+          />
+          {/* <CreatingBoard adding={adding} /> */}
+          <Avatar alt="MT" src="/static/images/avatar/1.jpg" />
+        </Toolbar>
       </AppBar>
-    </>
+    </Box>
   );
-}
-export default Boards;
+};
+
+export default TopMenu;

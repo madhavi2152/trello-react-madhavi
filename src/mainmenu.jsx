@@ -26,7 +26,7 @@ function SideMenu() {
             width: drawerWidth,
             boxSizing: "border-box",
           },
-          zIndex: "0",
+          zIndex: "1",
           position: "relative",
         }}
         variant="permanent"
