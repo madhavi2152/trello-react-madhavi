@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Fetches } from "./API";
-import { Input } from "@material-ui/icons";
 import BoardInput from "./BoardInput";
 function Boards() {
   let [data, setData] = useState();
