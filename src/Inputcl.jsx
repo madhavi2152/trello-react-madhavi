@@ -4,7 +4,6 @@ function Inputcl(props) {
   let { id, addData } = props;
   let [op, setOp] = useState("");
   function handleInput(e) {
-    // op = e.target.value;
     setOp(e.target.value);
     console.log(op);
   }
@@ -35,8 +34,29 @@ function Inputcl(props) {
           onChange={(e) => {
             handleInput(e);
           }}
+          style={{
+            borderRadius: "5px",
+            height: "24px",
+            border: "white",
+            boxShadow: "0 5px 11px 5px #ccc",
+            marginBottom: "10px",
+          }}
+          placeholder="enter name"
         ></input>
-        <button type="submit">submit</button>
+        <button
+          type="submit"
+          style={{
+            marginLeft: "5px",
+            borderRadius: "5px",
+            height: "24px",
+            backgroundColor: "white",
+            color: "blue",
+            border: "white",
+            boxShadow: "0 5px 11px 5px #ccc",
+          }}
+        >
+          submit
+        </button>
       </form>
     </>
   );

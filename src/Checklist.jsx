@@ -41,7 +41,7 @@ function Checklist(props) {
           style={{
             display: show ? "flex" : "none",
             backgroundColor: "white",
-            width: "700px",
+            width: "750px",
             minHeight: "600px",
             height: "fit-content",
             border: "3px solid gray",
@@ -49,7 +49,6 @@ function Checklist(props) {
             position: "absolute",
             boxShadow: "20px 20px 50px black",
             top: "25%",
-            // left: "35%",
             zIndex: "1",
           }}
         >
@@ -87,7 +86,7 @@ function Checklist(props) {
             style={{
               backgroundColor: "#ccc",
               borderLeft: "5px solid black",
-              width: "30%",
+              width: "40%",
               float: "right",
               marginLeft: "55%",
             }}
@@ -101,10 +100,11 @@ function Checklist(props) {
             <Button
               sx={{
                 textDecoration: "none",
-                color: "black",
-                backgroundColor: "white",
+                color: "white",
+                backgroundColor: "blue",
                 marginTop: "100%",
                 marginLeft: "10%",
+                borderRadius: "10px",
               }}
               onClick={handleAdd}
             >
@@ -115,6 +115,7 @@ function Checklist(props) {
                 id={id}
                 addData={(temp) => {
                   handlechecklist(temp);
+                  setShowInput(false);
                 }}
               />
             )}

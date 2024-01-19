@@ -21,7 +21,6 @@ function BoardInput(props) {
         style={{
           width: "400px",
           height: "100px",
-          //   backgroundColor: "beige",
           marginLeft: "250px",
           position: "absolute",
           zIndex: "3",
@@ -36,7 +35,7 @@ function BoardInput(props) {
             color: "white",
             border: "1px solid white",
             boxShadow: "0 0 10px white",
-            fontSize: "medium",
+            fontSize: "Large",
           }}
           onClick={() => {
             setShowform((prev) => !prev);

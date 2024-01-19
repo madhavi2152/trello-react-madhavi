@@ -21,7 +21,7 @@ const TopMenu = ({ adding }) => {
         marginBottom: "30px",
       }}
     >
-      <AppBar position="static" sx={{ backgroundColor: "#cccccc" }}>
+      <AppBar position="static" sx={{ backgroundColor: "blue" }}>
         <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
           <img
             src={logoUrl}

@@ -38,7 +38,7 @@ function CheckItems(props) {
             maxWidth: "100px",
           }}
         >
-          <div style={{ display: "flex" }}>
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
             {row.name}
             <IconButton
               onClick={() => {

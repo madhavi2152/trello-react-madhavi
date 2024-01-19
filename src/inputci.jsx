@@ -22,8 +22,28 @@ function Inputci(props) {
           value={val}
           placeholder="enter name"
           onChange={(e) => setVal(e.target.value)}
+          style={{
+            borderRadius: "5px",
+            height: "24px",
+            border: "white",
+            boxShadow: "0 5px 11px 5px #ccc",
+          }}
         ></input>
-        <button type="submit"> submit</button>
+        <button
+          type="submit"
+          style={{
+            marginLeft: "5px",
+            borderRadius: "5px",
+            height: "24px",
+            backgroundColor: "blue",
+            color: "white",
+            border: "white",
+            boxShadow: "0 5px 11px 5px #ccc",
+          }}
+        >
+          {" "}
+          submit
+        </button>
       </form>
     </>
   );

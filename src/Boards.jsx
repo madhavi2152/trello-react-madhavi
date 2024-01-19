@@ -45,12 +45,12 @@ function Boards() {
                       ? "powderblue"
                       : "defaultColor",
                   backgroundSize: "cover",
-                  height: "200px",
+                  height: "100px",
                   width: "200px",
-                  border: "1px solid black",
+                  border: "1px solid white",
                   margin: "50px",
                   boxShadow: "0 0 10px black", // Add your box shadow styles here
-                  color: "black",
+                  color: "white",
                 }}
               >
                 {row.name}
