@@ -1,37 +1,32 @@
 import { Button, Paper, Popover } from "@mui/material";
 import { FetchChecklist } from "./API";
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
+import reducer from "./Reducer";
 import Inputcl from "./Inputcl";
 import CloseIcon from "@mui/icons-material/Close";
 import CheckItems from "./CheckItems";
 function Checklist(props) {
   let { id } = props;
-  let [show, setShow] = useState(true);
-  let [cldata, setCldata] = useState([]);
-  let [showInput, setShowInput] = useState(false);
+  let [show, dispatch] = useReducer(reducer, { display: false });
+  let [cldata, dispatchCldata] = useReducer(reducer, []);
+  let [showInput, dispatchShowInput] = useReducer(reducer, { display: false });
   useEffect(() => {
     const fun = async () => {
       let temp = await FetchChecklist(id);
-      setCldata(temp);
+      dispatchCldata({ type: "initial", payload: temp });
       console.log(cldata);
     };
     fun();
   }, []);
 
   function handleAdd() {
-    setShowInput((prev) => !prev);
+    dispatchShowInput({ type: "showInput" });
   }
   function handlechecklist(temp) {
-    setCldata((prev) => [...prev, temp]);
+    dispatchCldata({ type: "handleCl", temp: temp });
   }
   function handleCheckItems(id, temp) {
-    setCldata((prev) =>
-      prev.map((item) =>
-        item.id === id
-          ? { ...item, checkItems: [...item.checkItems, temp] }
-          : item
-      )
-    );
+    dispatchCldata({ type: "updatecl", temp: temp, id: id });
   }
 
   return (
@@ -63,9 +58,7 @@ function Checklist(props) {
                   }}
                   const
                   DeleteList={(id) => {
-                    setCldata((prev) =>
-                      [...prev].filter((item) => item.id !== id)
-                    );
+                    dispatchCldata({ type: "deletecl", id: id });
                   }}
                 />
               ))
@@ -93,7 +86,7 @@ function Checklist(props) {
           >
             <CloseIcon
               onClick={() => {
-                setShow(false);
+                dispatch({ type: show });
               }}
               style={{ float: "right" }}
             />
@@ -115,7 +108,7 @@ function Checklist(props) {
                 id={id}
                 addData={(temp) => {
                   handlechecklist(temp);
-                  setShowInput(false);
+                  dispatchShowInput({ type: showInput });
                 }}
               />
             )}

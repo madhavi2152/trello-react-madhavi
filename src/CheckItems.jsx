@@ -1,27 +1,28 @@
 import { Button } from "@mui/material";
 import CheckBox from "./checkbox";
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import Inputci from "./inputci";
 import { IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-
+import reducer from "./Reducer";
 import { DeleteChecklist } from "./API";
 
 function CheckItems(props) {
   let { row, idcard, addci, DeleteList } = props;
-  let [show, setShow] = useState(false);
-  let [checkItems, setCheckItems] = useState("");
+  let [showci, dispatchShowci] = useReducer(reducer, false);
+  let [checkItems, dispatchCheckItems] = useReducer(reducer, []);
   useEffect(() => {
     let temp = row["checkItems"];
-    setCheckItems(temp);
+    dispatchCheckItems({ type: "initialci", temp: temp });
   }, []);
 
   function handleClick() {
-    setShow((prev) => !prev);
+    dispatchShowci({ type: "showci" });
   }
   function handleAddItem(temp) {
-    setCheckItems((prev) => [...prev, temp]);
-    setShow((prev) => !prev);
+    dispatchCheckItems({ type: "updateci", temp: temp });
+    // setCheckItems((prev) => [...prev, temp]);
+    dispatchShowci({ type: "hide" });
     addci(checkItems.id, temp);
   }
   return (
@@ -63,19 +64,14 @@ function CheckItems(props) {
                 }}
                 togglecheck={(val) => {
                   console.log(checkItems[index]);
-                  setCheckItems((prev) => {
-                    const updatedItems = [...prev];
-                    updatedItems[index] = {
-                      ...prev[index],
-                      state: val ? "incomplete" : "complete",
-                    };
-                    return updatedItems;
+                  dispatchCheckItems({
+                    type: "toggleci",
+                    val: val,
+                    index: index,
                   });
                 }}
                 deleteitem={(id) => {
-                  setCheckItems((prevItems) =>
-                    prevItems.filter((item) => item.id !== id)
-                  );
+                  dispatchCheckItems({ type: "deleteci", id: id });
                 }}
               />
             );
@@ -89,7 +85,7 @@ function CheckItems(props) {
             {" "}
             add check item
           </Button>
-          {show ? (
+          {showci ? (
             <Inputci id={row.id} Additem={(value) => handleAddItem(value)} />
           ) : (
             ""
