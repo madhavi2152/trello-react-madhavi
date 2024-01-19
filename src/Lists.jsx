@@ -10,7 +10,6 @@ function Lists() {
   let [Card, setCard] = useState([]);
   let { id } = useParams();
   id = id.split(":")[1];
-  console.log(id);
 
   useEffect(() => {
     const fun = async () => {
@@ -43,8 +42,6 @@ function Lists() {
       setData((prev) => [...prev, temp]);
       setCard((prev) => ({ ...prev, [temp.id]: [] }));
       setListvalue("");
-      console.log(Card);
-      console.log(data);
     };
     fun();
   }
@@ -53,7 +50,6 @@ function Lists() {
       ...Card,
       [temp.idList]: [...Card[temp.idList], temp],
     }));
-    console.log(Card);
     return "s";
   }
   function handleCardDelete(id, listid) {
@@ -66,11 +62,9 @@ function Lists() {
         ...prevCard,
         [listid]: updatedList,
       };
-      console.log(updatedCard);
       return updatedCard;
     });
   }
-  console.log(data);
 
   function handleListArchive(id) {
     setData((prev) => {
@@ -80,66 +74,108 @@ function Lists() {
     });
   }
 
-  return (
-    Object.keys(Card).length > 0 && (
-      <>
-        <div style={{ display: "flex", marginTop: "150px" }}>
-          {data.map((row) => {
-            return (
-              <ListDisplay
-                row={row}
-                card={card}
-                Card={Card}
-                setCard={setCard}
-                setcardfun={handlesetcardfun}
-                carddelete={(id, listid) => handleCardDelete(id, listid)}
-                listdelete={(id) => handleListArchive(id)}
-              />
-            );
-          })}
-          <form
-            onSubmit={(e) => {
-              handleSubmitlist(e);
+  return Object.keys(Card).length > 0 ? (
+    <>
+      <div style={{ display: "flex", marginTop: "150px" }}>
+        {data.map((row) => {
+          return (
+            <ListDisplay
+              row={row}
+              card={card}
+              Card={Card}
+              setCard={setCard}
+              setcardfun={handlesetcardfun}
+              carddelete={(id, listid) => handleCardDelete(id, listid)}
+              listdelete={(id) => handleListArchive(id)}
+            />
+          );
+        })}
+        <form
+          onSubmit={(e) => {
+            handleSubmitlist(e);
+          }}
+          style={{
+            display: "flex",
+            width: "200px",
+            height: "50px",
+            margin: "30px",
+          }}
+        >
+          <input
+            placeholder="add list"
+            value={listvalue}
+            onChange={(e) => {
+              setListvalue(e.target.value);
             }}
             style={{
-              display: "flex",
-              width: "200px",
-              height: "50px",
-              margin: "30px",
+              border: "none",
+              borderRadius: "5px",
+              marginRight: "5px",
+              boxShadow: "0 0 5px black",
+            }}
+          ></input>
+          <button
+            type="submit"
+            style={{
+              backgroundColor: "white",
+              height: "40px",
+              margin: "2px",
+              color: "blue",
+              fontSize: "Larger",
+              boxShadow: "0 0 5px black",
+              border: "none",
+              borderRadius: "5px",
             }}
           >
-            <input
-              placeholder="add list"
-              value={listvalue}
-              onChange={(e) => {
-                setListvalue(e.target.value);
-              }}
-              style={{
-                border: "none",
-                borderRadius: "5px",
-                marginRight: "5px",
-                boxShadow: "0 0 5px black",
-              }}
-            ></input>
-            <button
-              type="submit"
-              style={{
-                backgroundColor: "white",
-                height: "40px",
-                margin: "2px",
-                color: "blue",
-                fontSize: "Larger",
-                boxShadow: "0 0 5px black",
-                border: "none",
-                borderRadius: "5px",
-              }}
-            >
-              +
-            </button>
-          </form>
-        </div>
-      </>
-    )
+            +
+          </button>
+        </form>
+      </div>
+    </>
+  ) : (
+    <>
+      <form
+        onSubmit={(e) => {
+          handleSubmitlist(e);
+        }}
+        style={{
+          display: "flex",
+          width: "200px",
+          height: "50px",
+          margin: "30px",
+          marginTop: "150px",
+        }}
+      >
+        <input
+          placeholder="add list"
+          value={listvalue}
+          onChange={(e) => {
+            setListvalue(e.target.value);
+          }}
+          style={{
+            border: "none",
+            borderRadius: "5px",
+            marginRight: "5px",
+            boxShadow: "0 0 5px black",
+          }}
+        ></input>
+        <button
+          type="submit"
+          style={{
+            backgroundColor: "white",
+            height: "40px",
+            margin: "2px",
+            color: "blue",
+            fontSize: "Larger",
+            boxShadow: "0 0 5px black",
+            border: "none",
+            borderRadius: "5px",
+          }}
+        >
+          +
+        </button>
+      </form>
+    </>
   );
 }
 export default Lists;

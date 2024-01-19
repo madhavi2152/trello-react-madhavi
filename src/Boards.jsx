@@ -49,7 +49,7 @@ function Boards() {
                   width: "200px",
                   border: "1px solid white",
                   margin: "50px",
-                  boxShadow: "0 0 10px black", // Add your box shadow styles here
+                  boxShadow: "0 0 10px black",
                   color: "white",
                 }}
               >
