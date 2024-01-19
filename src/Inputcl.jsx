@@ -9,13 +9,15 @@ function Inputcl(props) {
   }
   function handleSubmit(e) {
     e.preventDefault();
-    const fun = async () => {
-      let temp = await AddChecklist(id, op);
-      addData(temp);
-      console.log(temp);
-    };
-    fun();
-    setOp("");
+    if (op !== "") {
+      const fun = async () => {
+        let temp = await AddChecklist(id, op);
+        addData(temp);
+        console.log(temp);
+      };
+      fun();
+      setOp("");
+    }
   }
   return (
     <>

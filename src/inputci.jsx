@@ -5,14 +5,14 @@ function Inputci(props) {
   let [val, setVal] = useState("");
   function handleSubmit(e) {
     e.preventDefault();
-    const fun = async () => {
-      let temp = await AddCheckitem(id, val);
-      Additem(temp);
-      console.log(temp);
-      setVal("");
-    };
-    fun();
-    console.log(val);
+    if (val !== "") {
+      const fun = async () => {
+        let temp = await AddCheckitem(id, val);
+        Additem(temp);
+        setVal("");
+      };
+      fun();
+    }
   }
   return (
     <>
