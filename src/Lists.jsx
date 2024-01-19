@@ -5,19 +5,20 @@ import { useEffect, useRef, useState } from "react";
 function Lists() {
   let [data, setData] = useState("");
   let idBoard = useRef("");
+  // idBoard.current
   let [listvalue, setListvalue] = useState("");
   let card = useRef({});
   let [Card, setCard] = useState([]);
   let { id } = useParams();
   id = id.split(":")[1];
-
+  idBoard.current = id;
   useEffect(() => {
     const fun = async () => {
       try {
         let listdata = await Listfetches(id);
         await Promise.all(
           listdata.map(async (row) => {
-            idBoard.current = row.idBoard;
+            // idBoard.current = row.idBoard;
             const d = await CardFetches(row.id);
             card.current = { ...card.current, [row.id]: d };
             console.log(card.current);
